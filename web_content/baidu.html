@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" type="text/css" href="mystyle.css">
+  <link rel="stylesheet" href="./css/layui.css"  media="all">
+  <script src="./layui.js" charset="utf-8"></script>
+  <script src="./jquery.min.js" charset="utf-8"></script>
+</head>
+<body>
+    <div id="box1">
+      <div id="box2">
+        <div class="layui-input-inline" style="width: 530px;" >
+          <input type="text" name="textInfo"  required  lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+        <button class="layui-btn" onclick="getImage()">Search</button>
+      </div>
+  
+      <div id="img_list">
+        <img id="img0" style="width: 150px; height: 200px; position: absolute; left: 60px; top: 180px;" />
+        <img id="img1" style="width: 150px; height: 200px; position: absolute; left: 280px; top: 180px;" />
+        <img id="img2" style="width: 150px; height: 200px; position: absolute; left: 500px; top: 180px;" />
+        <img id="img3" style="width: 150px; height: 200px; position: absolute; left: 720px; top: 180px;" />
+        <img id="img4" style="width: 150px; height: 200px; position: absolute; left: 940px; top: 180px;" />
+
+        <img id="img5" style="width: 150px; height: 200px; position: absolute; left: 60px; top: 420px;" />
+        <img id="img6" style="width: 150px; height: 200px; position: absolute; left: 280px; top: 420px;" />
+        <img id="img7" style="width: 150px; height: 200px; position: absolute; left: 500px; top: 420px;" />
+        <img id="img8" style="width: 150px; height: 200px; position: absolute; left: 720px; top: 420px;" />
+        <img id="img9" style="width: 150px; height: 200px; position: absolute; left: 940px; top: 420px;" />
+        
+      </div>
+    </div>
+</body>
+
+<script>
+
+    function randomCoding() {
+      var result = [];
+      var n = 2; //这个值可以改变的，对应的生成多少个字母，根据自己需求所改
+      for (var i = 0; i < n; i++) {
+        //生成一个0到25的数字
+        var ranNum = Math.ceil(Math.random() * 25);
+        //大写字母'A'的ASCII是65,A~Z的ASCII码就是65 + 0~25;
+        //然后调用String.fromCharCode()传入ASCII值返回相应的字符并push进数组里
+        result.push(String.fromCharCode(65 + ranNum));
+      }
+      return result.join('');
+    }
+
+    
+    function getImage(){
+        var textInfo = $("*[name='textInfo']").val();
+        var s = randomCoding();
+        var d=new Date();
+        var seconds=d.getSeconds();
+        var taskId=seconds+s;
+        //alert(taskId);
+        // var taskId = 1;
+        var strs = {"taskId": taskId,"textInfo": textInfo}
+        $.ajax({
+            url: 'http://127.0.0.1:8080/getImage',
+            type: 'POST',
+            dataType: 'json',
+            contentType : "application/json",
+            data: JSON.stringify(strs),
+            success: function (e) { //请求成功之后的返回结果
+            console.log('success');
+            console.log(e.length)
+            console.log(e)
+            for (var i = 0; i < e.length; i++) {
+                console.log(e[i])
+                var image = e[i].split("***")[0].split("'")[1];
+                var scores = e[i].split("***")[1];
+console.log(image)
+console.log(scores)
+                $('#img'+i).attr('src', image); //图片路径
+            }
+            },
+            error: function (xhr, textStatus) { //请求失败之后的返回错误信息
+            console.log('错误');
+            }
+        })
+    }
+</script>

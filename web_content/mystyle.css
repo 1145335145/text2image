@@ -1,0 +1,37 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+#switcher{
+    line-height: 1;
+font-family: "Kreon";
+font-weight: 300;
+color: #333;
+margin: 0;
+padding: 0;
+border: 0;
+outline: 0;
+font-size: 100%;
+vertical-align: baseline;
+height: 70px;
+z-index: 99999;
+position: fixed;
+width: 100%;
+top: 0;
+background: #000
+}
+#box1{
+    top: 100px;
+    width: 1000px;
+    height: 800px;
+    left: 15%;
+    position: relative;
+    /*background-color: ghostwhite; */
+}
+#box2{
+    position: relative;
+    left: 25%;
+    top: 90px;
+}
+
+
